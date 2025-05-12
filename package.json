@@ -1,0 +1,36 @@
+{
+  "name": "a11y-pulse",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test:a11y": "node lib/a11yTester.js",
+    "prisma": "prisma",
+    "generate": "prisma generate",
+    "migrate": "prisma migrate dev",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "@axe-core/puppeteer": "^4.7.2",
+    "@prisma/client": "^5.12.0",
+    "axios": "^1.6.8",
+    "html-pdf": "^3.0.1",
+    "next": "13.5.6",
+    "next-auth": "^4.24.3",
+    "puppeteer": "^21.6.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.30",
+    "@types/react": "^18.2.40",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "13.5.6",
+    "prettier": "^3.2.5",
+    "prisma": "^5.12.0",
+    "typescript": "^5.3.3"
+  }
+}

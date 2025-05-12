@@ -1,0 +1,24 @@
+name: a11y-pulse
+recipe: node
+config:
+  webroot: .
+  node: 18
+  port: 3000
+
+services:
+  database:
+    type: mariadb:10.6
+    portforward: true
+    creds:
+      user: a11y
+      password: a11y
+      database: a11y_pulse
+
+proxy:
+  appserver:
+    - a11y-pulse.lndo.site
+
+tooling:
+  next:
+    service: appserver
+    cmd: npm run dev

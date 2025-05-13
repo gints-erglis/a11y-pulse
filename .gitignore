@@ -9,3 +9,11 @@
 
 # Ignore node modules
 node_modules
+
+# Docker
+*.pid
+*.seed
+
+# Next.js
+.next/
+out/

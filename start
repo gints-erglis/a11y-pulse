@@ -1,0 +1,3 @@
+#!/bin/bash
+echo "Starting A11Y Pulse dev environment..."
+docker compose up -d --build

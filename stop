@@ -1,0 +1,3 @@
+#!/bin/bash
+echo "Stopping A11Y Pulse dev environment..."
+docker compose down

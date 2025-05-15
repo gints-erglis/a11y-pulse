@@ -1,0 +1,8 @@
+@use "variables";
+
+:root {
+  --logo-primary: #{variables.$color--black};
+  --footer-background-color: #{variables.$color--black};
+  --text-color-inverse: #{variables.$color--gray-10};
+  --border-color: #{variables.$color--black};
+}

@@ -1,0 +1,15 @@
+.footer {
+  padding: 2rem 0;
+
+  &.inverted {
+    background-color: var(--footer-background-color);
+  }
+
+  &__content {
+    text-align: center;
+
+    .inverted & {
+      color: var(--text-color-inverse);
+    }
+  }
+}

@@ -1,0 +1,16 @@
+.menu--main {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 1rem;
+
+  & > a {
+    color: var(--text-color);
+    text-decoration: none;
+    line-height: 3.5rem;
+    border-bottom: 2px solid transparent;
+
+    &:hover {
+      border-bottom: 2px solid var(--border-color);
+    }
+  }
+}

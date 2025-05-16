@@ -17,7 +17,7 @@ export default function Header() {
           />
           <span className="visually-hidden">A11Y Pulse</span>
         </Link>
-        <nav className="space-x-4">
+        <nav className="menu menu--main">
           <Link href="/dashboard" className="hover:underline">Dashboard</Link>
           <Link href="/about" className="hover:underline">About</Link>
         </nav>
@@ -30,7 +30,8 @@ export default function Header() {
           </button>
         ) : (
           <>
-            <span className="text-2xl font-bold mb-4">Hello, {session.user?.name || session.user?.email} 👋</span>
+            <span className="text-2xl font-bold mb-4">{session.user?.name || session.user?.email}</span>
+            <span><img src={session.user?.image || "/avatar.png"} alt="User avatar" className="avatar" /></span>
             <button
               onClick={() => signOut()}
               className="button button-primary"

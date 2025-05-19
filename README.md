@@ -56,3 +56,8 @@ Run initial schema migration:
 
 Your app should now be available at:
 👉 http://localhost:3000
+
+Restart only frontend
+```angular2html
+docker compose exec app npm run dev
+```

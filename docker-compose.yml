@@ -9,10 +9,8 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
-    environment:
-      DATABASE_URL: mysql://root:root@db:3306/a11y_pulse?sslmode=disable
-      NEXTAUTH_URL: http://localhost:3000
-      NEXTAUTH_SECRET: dev-secret
+    env_file:
+      - .env
     depends_on:
       - db
 

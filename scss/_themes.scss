@@ -1,6 +1,7 @@
 @use "variables";
 
 :root {
+  --brand-primary: #{variables.$color--primary};
   --logo-primary: #{variables.$color--black};
   --footer-background-color: #{variables.$color--black};
   --text-color: #{variables.$color--black};

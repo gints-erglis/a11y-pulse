@@ -7,10 +7,10 @@
     color: var(--text-color);
     text-decoration: none;
     line-height: 3.5rem;
-    border-bottom: 2px solid transparent;
+    border-bottom: 3px solid transparent;
 
     &:hover {
-      border-bottom: 2px solid var(--border-color);
+      border-bottom: 3px solid var(--brand-primary);
     }
   }
 }

@@ -1,0 +1,50 @@
+.user-menu {
+
+  &--wrapper {
+    position: relative;
+  }
+
+  &--trigger {
+    display: block;
+    border: 0;
+    background-color: transparent;
+
+    img {
+      display: block;
+      width: 2.5rem;
+      border-radius: 50%;
+      border: 2px solid #ccc;
+    }
+
+    &[aria-expanded=true] {
+      img {
+        border: 2px solid var(--brand-primary);
+      }
+    }
+  }
+
+  &--popover {
+    position: absolute;
+    display: flex;
+    flex-flow: column;
+    gap: .1rem;
+    background-color: white;
+    padding: .5rem;
+    border-radius: 5px;
+    top: 3rem;
+    right: .5rem;
+    width: 11rem;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  }
+
+  &--divider {
+    height: 1px;
+    width: 100%;
+    background-color: #e2e2e2;
+  }
+
+  &--username {
+    padding: .5rem 1rem;
+    font-weight: 600;
+  }
+}

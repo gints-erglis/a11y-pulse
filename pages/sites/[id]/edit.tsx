@@ -15,7 +15,7 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 
     const site = await prisma.site.findUnique({
         where: { id },
-        include: { owner: true }, // ← ŠEIT IR IEVIETS LABOJUMS
+        include: { owner: true },
     })
 
     if (!site || site.owner?.email !== session.user.email) {

@@ -2,7 +2,6 @@ import type { AppProps } from "next/app"
 import { SessionProvider } from "next-auth/react"
 import Layout from "@/components/Layout"
 import "@/css/style.css"
-import "@/scss/style.scss";
 
 export default function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (

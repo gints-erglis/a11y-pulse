@@ -1,0 +1,22 @@
+.site-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
+
+.site-item {
+    margin-bottom: 12px;
+}
+
+.site-entry {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.site-url {
+    color: #2563eb;
+    text-decoration: underline;
+    font-weight: 500;
+    flex-grow: 1;
+}

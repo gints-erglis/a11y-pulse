@@ -53,14 +53,14 @@ export default function SitesPage({ sites: initialSites }) {
       {sites.length === 0 ? (
         <p className="text-gray-500">You haven’t added any sites yet.</p>
       ) : (
-        <ul className="site-list">
+        <ul className="list list--sites">
           {sites.map((site) => (
-            <li key={site.id} className="site-item">
+            <li key={site.id} className="list--item">
               <div className="site-entry">
                 <Link href={`/sites/${site.id}`} className="site-url">
                   {site.url}
                 </Link>
-                <div className="site-actions">
+                <div className="toolbar">
                   <Link href={`/sites/${site.id}/edit`} className="edit-button">
                     Edit
                   </Link>

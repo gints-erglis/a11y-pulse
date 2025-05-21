@@ -13,6 +13,7 @@ services:
       - .env
     depends_on:
       - db
+    command: sh -c "npx prisma generate && npm run dev"
 
   db:
     image: mariadb:10.6
@@ -23,7 +24,7 @@ services:
       MYSQL_PASSWORD: a11y
       MYSQL_ROOT_PASSWORD: root
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - db_data:/var/lib/mysql
 

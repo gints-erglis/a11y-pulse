@@ -2,28 +2,21 @@ name: Deploy to Staging
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
   deploy:
-    name: Deploy to Staging Server
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup SSH key
-        uses: webfactory/ssh-agent@v0.8.0
+      - name: SSH and Deploy
+        uses: appleboy/ssh-action@v1.0.0
         with:
-          ssh-private-key: ${{ secrets.STAGING_SSH_KEY }}
-
-      - name: Deploy over SSH
-        run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.STAGING_USER }}@${{ secrets.STAGING_HOST }} << 'EOF'
-            cd ${{ secrets.STAGING_PATH }}
+          host: ${{ secrets.STAGING_HOST }}
+          username: ${{ secrets.STAGING_USER }}
+          key: ${{ secrets.STAGING_KEY }}
+          script: |
+            cd /var/www/a11y
             git pull origin main
-            docker-compose down
-            docker-compose up -d --build
-          EOF
+            docker compose down
+            docker compose up -d --build

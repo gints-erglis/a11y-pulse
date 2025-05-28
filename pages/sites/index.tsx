@@ -22,6 +22,18 @@ export async function getServerSideProps(context) {
 }
 
 export default function SitesPage({ sites }) {
+  const handleDelete = async (id) => {
+    if (confirm("Are you sure you want to delete this site?")) {
+      const res = await fetch(`/api/sites/${id}`, {
+        method: "DELETE",
+      })
+      if (res.ok) {
+        window.location.reload()
+      } else {
+        alert("Failed to delete.")
+      }
+    }
+  }
 
   return (
     <>
@@ -39,6 +51,10 @@ export default function SitesPage({ sites }) {
             <li key={site.id} className="list--item">
               <Link href={`/sites/${site.id}`} className="text-blue-600 underline">
                 {site.url}
+              </Link>
+
+              <Link href={`/sites/${site.id}/edit`} className="button button--edit">
+                Edit
               </Link>
             </li>
           ))}

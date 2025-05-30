@@ -1,0 +1,19 @@
+.progress-ring {
+  position: relative;
+
+  &__ring {
+    display: block;
+  }
+
+  &__text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    text-align: center;
+    line-height: 1;
+    transform: translateX(-50%) translateY(-50%);
+    font-size: 1em;
+    font-weight: 600;
+    letter-spacing: -1px;
+  }
+}

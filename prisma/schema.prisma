@@ -21,6 +21,20 @@ model Site {
   url      String
   ownerId  Int
   owner    User   @relation(fields: [ownerId], references: [id])
+  reports  Report[]
+}
+
+model Report {
+  id        Int      @id @default(autoincrement())
+  site      Site     @relation(fields: [siteId], references: [id])
+  siteId    Int
+  createdAt DateTime @default(now())
+  pdfPath   String
+  score     Int
+  critical  Int
+  serious   Int
+  moderate  Int
+  minor     Int
 }
 
 model Account {

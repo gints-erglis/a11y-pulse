@@ -2,9 +2,12 @@
 
 :root {
   --brand-primary: #{variables.$color--primary};
+  --brand-secondary: #{variables.$color--violet};
   --logo-primary: #{variables.$color--black};
   --footer-background-color: #{variables.$color--black};
   --text-color: #{variables.$color--black};
   --text-color-inverse: #{variables.$color--gray-10};
   --border-color: #{variables.$color--black};
+  --progress-ring-color: #{variables.$color--gray-80};
+  --progress-ring-disabled: #{variables.$color--gray-10};
 }

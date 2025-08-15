@@ -9,11 +9,46 @@
     gap: .5rem;
 
     .list--item {
-      display: flex;
-      padding: .5rem;
+      padding: .5rem 1rem;
       background-color: white;
       border-radius: 3px;
       box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
+    }
+
+    .site {
+      display: grid;
+      grid-template-columns: 15rem 10rem 4rem auto;
+      gap: 2rem;
+      align-items: center;
+
+      &__url {
+        text-decoration: none;
+        color: var(--brand-secondary);
+        font-size: 1rem;
+        font-weight: 600;
+      }
+
+      &__last-tested {
+        font-size: 0.8rem;
+        color: var(--progress-ring-color);
+      }
+
+      &__score {
+        width: 4rem;
+        font-size: 1.3rem;
+        color: var(--brand-secondary);
+
+        &.disabled {
+          color: var(--progress-ring-disabled);
+        }
+      }
+
+      &__actions {
+        display: flex;
+        flex-flow: row;
+        justify-content: end;
+        gap: 1rem;
+      }
     }
   }
 }

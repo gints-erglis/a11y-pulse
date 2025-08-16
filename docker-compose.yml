@@ -20,7 +20,7 @@ services:
       - db
     environment:
       PUPPETEER_CACHE_DIR: /tmp/puppeteer-cache
-    command: sh -c "npx prisma generate && npm run dev"
+    command: sh -lc '[ -d node_modules ] || (npm ci || npm install); npx prisma generate; npm run dev'
 
   db:
     image: mariadb:10.6

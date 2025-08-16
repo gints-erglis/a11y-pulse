@@ -7,9 +7,11 @@ services:
     working_dir: /app
     ports:
       - "3000:3000"
+    user: "${UID:-1000}:${GID:-1000}"
     volumes:
       - .:/app
       - /app/node_modules
+      - /app/.next
       - ./scripts:/app/scripts
       - ./reports:/app/reports
     env_file:

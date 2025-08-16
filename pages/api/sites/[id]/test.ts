@@ -29,7 +29,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     return res.status(200).json({
       message: 'Report created successfully!',
-      report: `/reports/site-${id}/${filename}`,
+      report: `/api/reports/site-${id}/${filename}`,
       metrics
     })
   } catch (err) {

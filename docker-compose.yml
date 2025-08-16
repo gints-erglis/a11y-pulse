@@ -20,7 +20,17 @@ services:
       - db
     environment:
       PUPPETEER_CACHE_DIR: /tmp/puppeteer-cache
-    command: sh -lc '[ -d node_modules ] || (npm ci || npm install); npx prisma generate; npm run dev'
+      WATCHPACK_POLLING: "true"
+      CHOKIDAR_USEPOLLING: "true"
+    command: >
+      sh -lc '
+        [ -d node_modules ] || (npm ci || npm install);
+        npx prisma migrate deploy || true;
+        npx prisma generate;
+        node -e "require(\"puppeteer\").executablePath().then(console.log).catch(()=>process.exit(1))" \
+          || npx puppeteer browsers install chrome;
+        next dev -H 0.0.0.0 -p 3000
+      '
 
   db:
     image: mariadb:10.6

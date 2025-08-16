@@ -43,3 +43,5 @@ services:
 
 volumes:
   db_data:
+  app_node_modules:
+  app_next:

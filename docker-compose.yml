@@ -18,6 +18,8 @@ services:
       - .env
     depends_on:
       - db
+    environment:
+      PUPPETEER_CACHE_DIR: /tmp/puppeteer-cache
     command: sh -c "npx prisma generate && npm run dev"
 
   db:

@@ -10,8 +10,8 @@ services:
     user: "${USER_ID:-1000}:${GROUP_ID:-1000}"
     volumes:
       - .:/app
-      - /app/node_modules
-      - /app/.next
+      - app_node_modules:/app/node_modules
+      - app_next:/app/.next
       - ./scripts:/app/scripts
       - ./reports:/app/reports
     env_file:

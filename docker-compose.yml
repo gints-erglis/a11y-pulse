@@ -14,7 +14,7 @@ services:
       - app_next:/app/.next
       - puppeteer_cache:/tmp/puppeteer-cache
       - ./scripts:/app/scripts
-      - ./reports:/app/reports
+      - reports_data:/app/reports
     env_file:
       - .env
     depends_on:
@@ -64,3 +64,4 @@ volumes:
   app_node_modules:
   app_next:
   puppeteer_cache:
+  reports_data:

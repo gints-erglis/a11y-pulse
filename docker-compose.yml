@@ -12,6 +12,7 @@ services:
       - .:/app
       - app_node_modules:/app/node_modules
       - app_next:/app/.next
+      - puppeteer_cache:/tmp/puppeteer-cache
       - ./scripts:/app/scripts
       - ./reports:/app/reports
     env_file:
@@ -55,3 +56,4 @@ volumes:
   db_data:
   app_node_modules:
   app_next:
+  puppeteer_cache:

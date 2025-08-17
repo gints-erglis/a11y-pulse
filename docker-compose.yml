@@ -25,12 +25,19 @@ services:
       CHOKIDAR_USEPOLLING: "true"
     command: >
       sh -lc '
-        [ -d node_modules ] || (npm ci || npm install);
+        # Next
+        [ -x node_modules/.bin/next ] || (npm ci || npm install);
+
+        # Prisma
         npx prisma migrate deploy || true;
         npx prisma generate;
-        node -e "require(\"puppeteer\").executablePath().then(console.log).catch(()=>process.exit(1))" \
-          || npx puppeteer browsers install chrome;
-        next dev -H 0.0.0.0 -p 3000
+
+        # Puppeteer
+        node -e "const p=require('puppeteer').executablePath(); console.log(p||''); process.exit(p?0:1)" \
+          || (mkdir -p /tmp/puppeteer-cache && npx puppeteer browsers install chrome);
+
+        # Start Next dev
+        exec npx next dev -H 0.0.0.0 -p 3000
       '
 
   db:

@@ -6,11 +6,9 @@ const fs = require('fs/promises');
 const path = require('path');
 const { simulateFocusTrap } = require('./checks/focusTrapCheck');
 
-const launchArgs = [
-  '--no-sandbox',
-  '--disable-setuid-sandbox',
-  '--disable-dev-shm-usage',
-];
+const launchArgs = (process.env.PUPPETEER_ARGS
+  || '--no-sandbox --disable-setuid-sandbox --disable-dev-shm-usage')
+  .split(' ').filter(Boolean);
 
 // Utility to sanitize unsafe characters for HTML
 function sanitizeText(input) {

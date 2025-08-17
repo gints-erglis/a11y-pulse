@@ -2,7 +2,7 @@ name: Deploy to Staging
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
   deploy:
@@ -15,9 +15,17 @@ jobs:
           host: ${{ secrets.STAGING_HOST }}
           username: ${{ secrets.STAGING_USER }}
           key: ${{ secrets.STAGING_SSH_KEY }}
+          script_stop: true
           script: |
+            set -Eeuo pipefail
+
             cd /var/www/a11y
-            git pull origin main
-            docker-compose down
-            docker-compose up -d --build
-            docker-compose exec app npx prisma migrate deploy
+
+            git fetch --all
+            git reset --hard origin/main
+
+            COMPOSE_BASE="-f docker-compose.prod.yml"
+
+            docker compose $COMPOSE_BASE up -d --build --remove-orphans app
+            docker compose $COMPOSE_BASE up -d --wait app || true
+            docker image prune -f || true

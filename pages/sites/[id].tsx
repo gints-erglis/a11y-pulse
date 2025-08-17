@@ -37,8 +37,19 @@ export default function SitePage({ site }) {
   const [loading, setLoading] = useState(false)
   const router = useRouter()
 
+  // const fetchReports = async () => {
+  //   const res = await fetch(`/api/reports/${site.id}`)
+  //   const json = await res.json()
+  //   setReports(json.reports || [])
+  // }
   const fetchReports = async () => {
-    const res = await fetch(`/api/reports/${site.id}`)
+    const res = await fetch(`/api/reports?siteId=${site.id}`)
+    if (!res.ok) {
+      const txt = await res.text()
+      console.warn(`GET /api/reports?siteId=${site.id} → ${res.status}: ${txt}`)
+      setReports([])
+      return
+    }
     const json = await res.json()
     setReports(json.reports || [])
   }

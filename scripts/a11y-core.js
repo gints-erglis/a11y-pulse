@@ -6,6 +6,12 @@ const fs = require('fs/promises');
 const path = require('path');
 const { simulateFocusTrap } = require('./checks/focusTrapCheck');
 
+const launchArgs = [
+  '--no-sandbox',
+  '--disable-setuid-sandbox',
+  '--disable-dev-shm-usage',
+];
+
 // Utility to sanitize unsafe characters for HTML
 function sanitizeText(input) {
   if (typeof input !== 'string') {
@@ -31,7 +37,12 @@ async function runA11yTest(url, outputPath) {
     throw new Error("❌ Missing 'url' or 'outputPath'");
   }
 
-  const browser = await puppeteer.launch({ headless: "new" });
+  // const browser = await puppeteer.launch({ headless: "new" });
+  const browser = await puppeteer.launch({
+    headless: 'new',
+    args: launchArgs,
+    executablePath: process.env.PUPPETEER_EXECUTABLE_PATH || puppeteer.executablePath(),
+  });
   const page = await browser.newPage();
 
   try {

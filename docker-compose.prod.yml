@@ -3,7 +3,7 @@ services:
     environment:
       NODE_ENV: production
       PUPPETEER_ARGS: --no-sandbox --disable-setuid-sandbox --disable-dev-shm-usage
-      PUPPETEER_CACHE_DIR: /tmp/puppeteer-cache
+      PUPPETEER_CACHE_DIR: /home/nodeapp/.cache/puppeteer
       WATCHPACK_POLLING: "true"
       CHOKIDAR_USEPOLLING: "true"
     build:
@@ -17,13 +17,14 @@ services:
     volumes:
       - app_node_modules:/app/node_modules
       - app_next:/app/.next
-      - puppeteer_cache:/tmp/puppeteer-cache
+      - puppeteer_cache:/home/nodeapp/.cache/puppeteer
       - ./scripts:/app/scripts
       - reports_data:/app/reports
     env_file:
       - .env
     depends_on:
       - db
+    shm_size: "1gb"
     command: >
       sh -lc "
         (npm ci || npm install) &&
@@ -45,12 +46,6 @@ services:
       - "3307:3306"
     volumes:
       - db_data:/var/lib/mysql
-
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - "8080:8080"
 
 volumes:
   db_data:

@@ -7,12 +7,11 @@ services:
     working_dir: /app
     ports:
       - "3000:3000"
-    user: "1010:1010"
     volumes:
       - .:/app
       - app_node_modules:/app/node_modules
       - app_next:/app/.next
-      - puppeteer_cache:/tmp/puppeteer-cache
+      - puppeteer_cache:/home/nodeapp/.cache/puppeteer
       - ./scripts:/app/scripts
       - reports_data:/app/reports
     env_file:
@@ -22,15 +21,11 @@ services:
     environment:
       NODE_ENV: development
       PUPPETEER_ARGS: --no-sandbox --disable-setuid-sandbox --disable-dev-shm-usage
-      PUPPETEER_CACHE_DIR: /tmp/puppeteer-cache
+      PUPPETEER_CACHE_DIR: /home/nodeapp/.cache/puppeteer
       WATCHPACK_POLLING: "true"
       CHOKIDAR_USEPOLLING: "true"
-    command: >
-      sh -lc "
-        (npm ci || npm install) &&
-        npx prisma generate &&
-        next dev -H 0.0.0.0 -p 3000
-      "
+    shm_size: "1gb"
+    command: ["/bin/bash", "-lc", "/app/scripts/dev-entry.sh"]
 
   db:
     image: mariadb:10.6

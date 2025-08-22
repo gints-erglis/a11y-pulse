@@ -35,6 +35,12 @@ RUN apt-get update -y && apt-get install -y \
     --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
+RUN mkdir -p /home/nodeapp/.cache/puppeteer \
+             /app/node_modules \
+             /app/.next \
+             /app/reports \
+    && chown -R nodeapp:nodeapp /home/nodeapp/.cache /app
+
 COPY package*.json ./
 
 COPY . .

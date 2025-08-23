@@ -1,40 +1,88 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
-import path from 'path'
-import runA11yTest from '@/scripts/a11y-core' // use ts-ignore if .js
-import fs from 'fs'
-import {prisma} from "@/lib/prisma";
+// pages/api/sites/[id]/test.ts
+import type { NextApiRequest, NextApiResponse } from "next";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import path from "path";
+import fs from "fs/promises";
+import { prisma } from "@/lib/prisma";
+import runA11yTest from "@/lib/a11y/runA11yTest";
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== 'POST') return res.status(405).end()
+type OkResponse = {
+  message: string;
+  report: string;  // API URL uz PDF
+  metrics: {
+    score: number;
+    critical: number;
+    serious: number;
+    moderate: number;
+    minor: number;
+  };
+};
+type ErrResponse = { error: string };
 
-  const { id } = req.query
-  const { url } = req.body
-  if (!url || !id) return res.status(400).json({ error: 'Missing URL or ID' })
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse<OkResponse | ErrResponse>
+) {
+  if (req.method !== "POST") {
+    res.setHeader("Allow", ["POST"]);
+    return res.status(405).json({ error: `Method ${req.method} Not Allowed` });
+  }
 
-  const timestamp = new Date().toISOString().replace(/[:.]/g, '-')
-  const outputDir = path.join(process.cwd(), 'reports', `site-${id}`)
-  const filename = `${timestamp}.pdf`
-  const outputPath = path.join(outputDir, filename)
+  const session = await getServerSession(req, res, authOptions);
+  if (!session?.user?.email) {
+    return res.status(401).json({ error: "Not authorized" });
+  }
+
+  const siteId = Number(req.query.id);
+  const { url } = req.body as { url?: string };
+
+  if (!Number.isInteger(siteId) || siteId <= 0) {
+    return res.status(400).json({ error: "Missing or invalid site id" });
+  }
+  if (!url || typeof url !== "string") {
+    return res.status(400).json({ error: "Missing URL" });
+  }
+
+  // Check access rights
+  const site = await prisma.site.findUnique({
+    where: { id: siteId },
+    include: { owner: true },
+  });
+  if (!site || site.owner.email !== session.user.email) {
+    return res.status(403).json({ error: "Access denied" });
+  }
+
+  const timestamp = new Date().toISOString().replace(/[:.]/g, "-");
+  const dir = path.join(process.cwd(), "reports", `site-${siteId}`);
+  const fileName = `${timestamp}.pdf`;
+  const absPdfPath = path.join(dir, fileName);
 
   try {
-    const metrics = await runA11yTest(url, outputPath);
-    console.log(`Prisma-report: ${prisma.report}`);
+    await fs.mkdir(dir, { recursive: true });
+
+    // Run test (axe + PDF)
+    const metrics = await runA11yTest(url, absPdfPath);
+
+    const relPdfPath = path.posix.join(`site-${siteId}`, fileName);
     await prisma.report.create({
       data: {
-        siteId: parseInt(id as string, 10),
-        pdfPath: outputPath.replace(process.cwd(), ""),
-        ...metrics
-      }
+        siteId,
+        pdfPath: relPdfPath,
+        ...metrics,
+      },
     });
 
+    const reportUrl = `/api/reports/${siteId}/file/${encodeURIComponent(fileName)}`;
+
     return res.status(200).json({
-      message: 'Report created successfully!',
-      report: `/api/reports/site-${id}/${filename}`,
-      metrics
-    })
-  } catch (err) {
+      message: "Report created successfully!",
+      report: reportUrl,
+      metrics,
+    });
+  } catch (err: any) {
     return res.status(500).json({
-      error: err instanceof Error ? err.message : 'Unknown error',
-    })
+      error: err?.message ?? "Unknown error",
+    });
   }
 }

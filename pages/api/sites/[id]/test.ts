@@ -5,7 +5,7 @@ import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import path from "path";
 import fs from "fs/promises";
 import { prisma } from "@/lib/prisma";
-import runA11yTest from "@/lib/a11y/runA11yTest";
+import { runA11yTest } from '@/lib/a11y/runA11yTest'
 
 type OkResponse = {
   message: string;

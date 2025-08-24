@@ -1,0 +1,12 @@
+.report-list {
+  margin: 1rem 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr 150px 100px;
+  gap: 1rem;
+
+  li {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: subgrid;
+  }
+}

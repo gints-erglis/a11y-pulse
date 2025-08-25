@@ -21,6 +21,6 @@ out/
 prisma/dev.db
 prisma/dev.db-journal
 
-reports
+/reports/
 
 .sass-cache/
